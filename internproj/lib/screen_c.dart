@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:internproj/routs.dart';
 
 class ScreenC extends StatefulWidget {
-  final int tapedItem;
+  final int? tapedItem;
   final List items;
+
   const ScreenC({
     super.key,
     required this.items,
@@ -17,13 +19,11 @@ class _ScreenCState extends State<ScreenC> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Screen C"),
-      ),
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(20.0),
           child: ListView.builder(
+            shrinkWrap: true,
             itemCount: 1,
             itemBuilder: ((context, index) {
               for (var i = 0; i < widget.items.length; i++) {
