@@ -33,26 +33,29 @@ class _MyHomePageState extends State<MyHomePage> {
             return Text("${data.error}");
           } else if (data.hasData) {
             var items = data.data as List;
-            //finding unique parents from the json file and storing them in a list
-            var uniqueItems = [];
+            //finding parent catagorie in the list
+            var parentCat = [];
+
             for (int i = 0; i < items.length; i++) {
-              var parents = items[i].parent;
-              if (!uniqueItems.contains(parents)) {
-                uniqueItems.add(parents);
+              if (items[i].parent == 0) {
+                parentCat.add(i);
               }
             }
             //displaying the elements
             return ListView.builder(
-              itemCount: uniqueItems.length,
+              itemCount: parentCat.length,
               itemBuilder: (context, index) {
                 return InkWell(
                   splashColor: Colors.blue.withAlpha(50),
                   onTap: () async {
-                    final parentId = uniqueItems[index];
+                    final parentId = items[parentCat[index]].id;
+
                     await Navigator.of(context).push(
                       MaterialPageRoute(
                         builder: (context) => ScreenB(
                           parentId: parentId,
+                          items: items,
+                          itemIndex: parentCat[index],
                         ),
                       ),
                     );
@@ -65,8 +68,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       height: 150,
                       width: 200,
                       child: Center(
-                        child: Text(
-                            "Parent Group Number: ${uniqueItems[index].toString()}"),
+                        child: Text(items[parentCat[index]].name.toString()),
                       ),
                     ),
                   ),

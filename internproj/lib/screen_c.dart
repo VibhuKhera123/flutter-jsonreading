@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
 
 class ScreenC extends StatefulWidget {
-  const ScreenC({super.key});
+  final int tapedItem;
+  final List items;
+  const ScreenC({
+    super.key,
+    required this.items,
+    required this.tapedItem,
+  });
 
   @override
   State<ScreenC> createState() => _ScreenCState();
@@ -14,21 +20,37 @@ class _ScreenCState extends State<ScreenC> {
       appBar: AppBar(
         title: const Text("Screen C"),
       ),
-      body: FutureBuilder(
-        builder: (context, snapshot) {
-          return Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: const [
-              Text(
-                "No More Child",
-                style: TextStyle(
-                  fontSize: 30,
-                  fontWeight: FontWeight.bold,
-                ),
-              )
-            ],
-          );
-        },
+      body: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: ListView.builder(
+            itemCount: 1,
+            itemBuilder: ((context, index) {
+              for (var i = 0; i < widget.items.length; i++) {
+                if (widget.items[i].id == widget.tapedItem) {
+                  return Card(
+                    elevation: 20,
+                    child: SizedBox(
+                      height: 500,
+                      width: 280,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Text(
+                            "id: ${widget.items[i].id.toString()}\nParent: ${widget.items[i].parent.toString()}\nName: ${widget.items[i].name}\nSlug: ${widget.items[i].slug}",
+                            style: const TextStyle(
+                                fontSize: 20, fontWeight: FontWeight.bold),
+                          )
+                        ],
+                      ),
+                    ),
+                  );
+                }
+              }
+              return const CircularProgressIndicator.adaptive();
+            }),
+          ),
+        ),
       ),
     );
   }
